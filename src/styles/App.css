@@ -1,0 +1,87 @@
+body {
+  background: url(../images/UCL_bg.jpg) 0 0 no-repeat;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  clear: both;
+}
+
+h4 img {
+  margin-right: 10px;
+}
+.grayscale {
+  -webkit-filter: grayscale(1);
+  filter: grayscale(1);
+}
+.index {
+  margin-left: 50px;
+}
+
+.demo-card-event.mdl-card {
+  width: 256px;
+  height: 200px;
+  background: #fafafa;
+  margin: 0 20px 20px 0;
+  float: left;
+}
+.demo-card-event.mdl-card.played {
+  background: #ddd;
+}
+.demo-card-event > .mdl-card__actions {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.demo-card-event > .mdl-card__title {
+  align-items: flex-start;
+}
+.demo-card-event > .mdl-card__title > h4 {
+  margin-top: 0;
+}
+.demo-card-event > .mdl-card__actions {
+  display: flex;
+  box-sizing:border-box;
+  align-items: center;
+}
+.demo-card-event > .mdl-card__title,
+.demo-card-event > .mdl-card__actions,
+.demo-card-event > .mdl-card__actions > .mdl-button {
+  color: #333;
+}
+
+.cutoff {
+  border-left: 2px solid #ff0000;
+  background: #ddd;
+}
+
+.avatar {
+  position: relative;
+  top: -5px;
+  border: none !important;
+}
+
+.versus {
+  margin-left: 52px;
+  margin-bottom: 5px;
+}
+
+.logo {
+  background: url(../images/cfl_logo.png) 0 0 no-repeat;
+  background-size: 200px 155px;
+  height: 155px;
+  width: 200px;
+  position: relative;
+  left: -40px;
+}
+
+@media (max-width: 400px) {
+  .dialog-header {
+    font-size: 1em;
+    line-height: 1em;
+    margin: 0;
+  }
+  .hide-on-mobile {
+    display: none;
+  }
+  .index {
+    margin-left: 20px;
+  }
+}

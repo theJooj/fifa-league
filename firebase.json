@@ -1,0 +1,9 @@
+{
+  "firebase": "cvent-fifa-league",
+  "public": "dist",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
