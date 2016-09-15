@@ -5,6 +5,7 @@ import React from 'react';
 import update from 'react-addons-update';
 const Scheduler = require('./Schedule');
 let { TextField, Dialog, Avatar } = require('material-ui');
+import _ from 'lodash';
 const moment = require('moment');
 
 class AppComponent extends React.Component {
@@ -16,15 +17,15 @@ class AppComponent extends React.Component {
       week: 0,
       index: 0,
       game: {},
-      startDateInput: '11/12/2015',
+      startDateInput: '10/3/2016',
       startDate: ''
     }
   }
 
   componentWillMount(){
     var self = this;
-    this.teamsRef = new Firebase('https://cvent-fifa-league.firebaseio.com/teams');
-    this.scehduleRef = new Firebase('https://cvent-fifa-league.firebaseio.com/scehdule');
+    this.teamsRef = new window.Firebase('https://cvent-fifa-league.firebaseio.com/teams');
+    this.scehduleRef = new window.Firebase('https://cvent-fifa-league.firebaseio.com/scehdule');
 
     var teams, schedule;
 
@@ -61,6 +62,7 @@ class AppComponent extends React.Component {
   _createSchedule(){
     var self = this;
     var schedule = Scheduler.getSchedule(this.state.teams);
+    schedule = _.chunk(schedule, 2);
 
     var newSeason = [];
 
@@ -76,19 +78,28 @@ class AppComponent extends React.Component {
     }
 
     schedule.map(function(week, index){
+      week = week[0].concat(week[1]);
       let day = moment(self.state.startDate).add(count, 'd');
       switch(day.day()){
         case 0:
-          day.add(1, 'd');
-          count ++;
-          break;
-        case 5:
-          day.add(3, 'd');
-          count += 3;
-          break;
-        case 6:
           day.add(2, 'd');
           count += 2;
+          break;
+        case 1:
+          day.add(1, 'd');
+          count += 1;
+          break;
+        case 3:
+          day.add(1, 'd');
+          count += 1;
+          break;
+        case 5:
+          day.add(4, 'd');
+          count += 4;
+          break;
+        case 6:
+          day.add(3, 'd');
+          count += 3;
           break;
       }
 
@@ -156,7 +167,7 @@ class AppComponent extends React.Component {
       this.refs.matchResults.dismiss();
     }
     let _matchDialogSave = function(){
-      fetch('https://hooks.slack.com/services/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', {
+      fetch('https://hooks.slack.com/services/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', {
         method: 'post',
         body: JSON.stringify({
           text: this.state.game.team1 + ': ' + this.state.game.team1goals + '\n' + this.state.game.team2 + ': ' + this.state.game.team2goals
