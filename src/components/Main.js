@@ -18,7 +18,8 @@ class AppComponent extends React.Component {
       index: 0,
       game: {},
       startDateInput: '10/3/2016',
-      startDate: ''
+      startDate: '',
+      filterName: ''
     }
   }
 
@@ -292,12 +293,12 @@ class AppComponent extends React.Component {
       }
     });
 
-    let standingsList = teamsSorted.map(function(team, index){
+    let standingsList = teamsSorted.map((team, index) => {
       if(team.name !== 'Bye'){
         var rowClass = index + 4 >= teamsSorted.length ? 'cutoff' : '';
 
         return (
-          <tr key={index} className={rowClass}>
+          <tr key={index} className={rowClass} onClick={() => {this.setState({filterName: team.name})}}>
             <td className='mdl-data-table__cell--non-numeric'><Avatar src={team.avatar} className='avatar' /></td>
             <td className='mdl-data-table__cell--non-numeric'>{team.name} <span className="hide-on-mobile">({team.gamertag})</span></td>
             <td>{team.wins + team.losses + team.ties}</td>
@@ -312,7 +313,8 @@ class AppComponent extends React.Component {
       }
     });
 
-    let scheduleList = this.state.schedule.map(function(week, index){
+    let scheduleList = this.state.schedule.map((week, index) => {
+      const self = this;
       let _editMatchResults = function(week, index, game){
         return (
           function(e){
@@ -323,49 +325,52 @@ class AppComponent extends React.Component {
         );
       }
       let games = week.games.map(function(game, index){
-        if(game.team1goals === '' && game.team1 !== 'Bye' && game.team2 !== 'Bye'){
-          return (
-            <div className="demo-card-event mdl-card mdl-shadow--2dp" key={index}>
-              <div className="mdl-card__title mdl-card--expand">
-                <h4>
-                  <Avatar src={game.team1avatar} />{game.team1}<br />
-                  <div className="versus">vs.</div>
-                  <Avatar src={game.team2avatar} />{game.team2}
-                </h4>
+        console.log(game);
+        if(game.team1 === self.state.filterName || game.team2 === self.state.filterName || self.state.filterName === ''){
+          if(game.team1goals === '' && game.team1 !== 'Bye' && game.team2 !== 'Bye'){
+            return (
+              <div className="demo-card-event mdl-card mdl-shadow--2dp" key={index}>
+                <div className="mdl-card__title mdl-card--expand">
+                  <h4>
+                    <Avatar src={game.team1avatar} />{game.team1}<br />
+                    <div className="versus">vs.</div>
+                    <Avatar src={game.team2avatar} />{game.team2}
+                  </h4>
+                </div>
+                <div className="mdl-card__actions mdl-card--border">
+                  <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="#" onClick={_editMatchResults(week.week, index, game)}>
+                    Add Match Results
+                  </a>
+                  <div className="mdl-layout-spacer"></div>
+                  <i className="material-icons">add</i>
+                </div>
               </div>
-              <div className="mdl-card__actions mdl-card--border">
-                <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="#" onClick={_editMatchResults(week.week, index, game)}>
-                  Add Match Results
-                </a>
-                <div className="mdl-layout-spacer"></div>
-                <i className="material-icons">add</i>
+            );
+          } else if(game.team1 === 'Bye' || game.team2 === 'Bye'){
+            return (
+              <div className="demo-card-event mdl-card mdl-shadow--2dp played" key={index}>
+                <div className="mdl-card__title mdl-card--expand">
+                  <h4>
+                    <Avatar src={game.team1avatar} className="grayscale" />{game.team1}<br />
+                    <div className="versus">vs.</div>
+                    <Avatar src={game.team2avatar} className="grayscale" />{game.team2}
+                  </h4>
+                </div>
               </div>
-            </div>
-          );
-        } else if(game.team1 === 'Bye' || game.team2 === 'Bye'){
-          return (
-            <div className="demo-card-event mdl-card mdl-shadow--2dp played" key={index}>
-              <div className="mdl-card__title mdl-card--expand">
-                <h4>
-                  <Avatar src={game.team1avatar} className="grayscale" />{game.team1}<br />
-                  <div className="versus">vs.</div>
-                  <Avatar src={game.team2avatar} className="grayscale" />{game.team2}
-                </h4>
+            );
+          } else {
+            return (
+              <div className="demo-card-event mdl-card mdl-shadow--2dp played" key={index}>
+                <div className="mdl-card__title mdl-card--expand">
+                  <h4>
+                    <Avatar src={game.team1avatar} className="grayscale" />{game.team1}: {game.team1goals}<br />
+                    <div className="versus">vs.</div>
+                    <Avatar src={game.team2avatar} className="grayscale" />{game.team2}: {game.team2goals}
+                  </h4>
+                </div>
               </div>
-            </div>
-          );
-        } else {
-          return (
-            <div className="demo-card-event mdl-card mdl-shadow--2dp played" key={index}>
-              <div className="mdl-card__title mdl-card--expand">
-                <h4>
-                  <Avatar src={game.team1avatar} className="grayscale" />{game.team1}: {game.team1goals}<br />
-                  <div className="versus">vs.</div>
-                  <Avatar src={game.team2avatar} className="grayscale" />{game.team2}: {game.team2goals}
-                </h4>
-              </div>
-            </div>
-          );
+            );
+          }
         }
       });
       return (
