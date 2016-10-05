@@ -24,20 +24,19 @@ class AppComponent extends React.Component {
   }
 
   componentWillMount(){
-    var self = this;
     this.teamsRef = new window.Firebase('https://cvent-fifa-league.firebaseio.com/teams');
     this.scehduleRef = new window.Firebase('https://cvent-fifa-league.firebaseio.com/scehdule');
 
     var teams, schedule;
 
-    this.teamsRef.on('value', function(dataSnapshot){
+    this.teamsRef.on('value', (dataSnapshot) => {
       teams = dataSnapshot.val();
-      self.setState({teams: teams});
+      this.setState({teams: teams});
     });
 
-    this.scehduleRef.on('value', function(dataSnapshot){
+    this.scehduleRef.on('value', (dataSnapshot) => {
       schedule = dataSnapshot.val();
-      self.setState({schedule: schedule});
+      this.setState({schedule: schedule});
     });
   }
 
@@ -295,7 +294,7 @@ class AppComponent extends React.Component {
 
     let standingsList = teamsSorted.map((team, index) => {
       if(team.name !== 'Bye'){
-        var rowClass = index + 4 >= teamsSorted.length ? 'cutoff' : '';
+        var rowClass = index + 3 >= teamsSorted.length ? 'cutoff' : '';
 
         return (
           <tr key={index} className={rowClass} onClick={() => {this.setState({filterName: team.name})}}>
@@ -325,7 +324,6 @@ class AppComponent extends React.Component {
         );
       }
       let games = week.games.map(function(game, index){
-        console.log(game);
         if(game.team1 === self.state.filterName || game.team2 === self.state.filterName || self.state.filterName === ''){
           if(game.team1goals === '' && game.team1 !== 'Bye' && game.team2 !== 'Bye'){
             return (
@@ -429,8 +427,5 @@ class AppComponent extends React.Component {
     );
   }
 }
-
-AppComponent.defaultProps = {
-};
 
 export default AppComponent;
