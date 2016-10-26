@@ -294,7 +294,7 @@ class AppComponent extends React.Component {
 
     let standingsList = teamsSorted.map((team, index) => {
       if(team.name !== 'Bye'){
-        var rowClass = index + 3 >= teamsSorted.length ? 'cutoff' : '';
+        var rowClass = index + 4 >= teamsSorted.length ? 'cutoff' : '';
 
         return (
           <tr key={index} className={rowClass} onClick={() => {this.setState({filterName: team.name})}}>
