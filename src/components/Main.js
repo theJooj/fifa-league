@@ -82,24 +82,24 @@ class AppComponent extends React.Component {
       let day = moment(self.state.startDate).add(count, 'd');
       switch(day.day()){
         case 0:
-          day.add(2, 'd');
-          count += 2;
-          break;
-        case 1:
           day.add(1, 'd');
           count += 1;
           break;
-        case 3:
+        case 2:
           day.add(1, 'd');
           count += 1;
           break;
-        case 5:
+        case 4:
           day.add(4, 'd');
           count += 4;
           break;
-        case 6:
+        case 5:
           day.add(3, 'd');
           count += 3;
+          break;
+        case 6:
+          day.add(2, 'd');
+          count += 2;
           break;
       }
 
