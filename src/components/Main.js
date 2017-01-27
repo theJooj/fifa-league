@@ -7,6 +7,7 @@ const Scheduler = require('./Schedule');
 let { TextField, Dialog, Avatar } = require('material-ui');
 import _ from 'lodash';
 const moment = require('moment');
+import 'whatwg-fetch';
 
 class AppComponent extends React.Component {
   constructor(props){
@@ -84,6 +85,7 @@ class AppComponent extends React.Component {
         case 0:
           day.add(1, 'd');
           count += 1;
+          console.log("sunday");
           break;
         case 2:
           day.add(1, 'd');
